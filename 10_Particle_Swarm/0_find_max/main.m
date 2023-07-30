@@ -71,8 +71,8 @@ for i = 1:maxgen
             zbest = pop(j,:);
             fitnesszbest = fitness(j);
         end
-    end 
-    yy(i) = fitnesszbest;          
+    end
+    yy(i) = fitnesszbest;
 end
 
 %% VII. 输出结果并绘图
