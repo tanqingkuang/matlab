@@ -1,0 +1,183 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>zeroinput_resp_by_analysis</title><meta name="generator" content="MATLAB 9.0"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2023-07-31"><meta name="DC.source" content="zeroinput_resp_by_analysis.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h2>Contents</h2><div><ul><li><a href="#1">I. &#28165;&#31354;&#25968;&#25454;</a></li><li><a href="#2">II. &#35774;&#23450;&#25511;&#21046;&#31995;&#32479;&#21442;&#25968;</a></li><li><a href="#3">III. &#36873;&#25321;&#23545;&#27604;&#26041;&#26696;</a></li><li><a href="#4">IV. &#30452;&#25509;&#20351;&#29992;&#35299;&#26512;&#32467;&#26524;&#36755;&#20986;&#38646;&#36755;&#20837;&#21709;&#24212;</a></li><li><a href="#8">V &#20998;&#26512;</a></li></ul></div><h2>I. &#28165;&#31354;&#25968;&#25454;<a name="1"></a></h2><pre class="codeinput">clear <span class="string">all</span>;
+clc;
+close <span class="string">all</span>;
+</pre><h2>II. &#35774;&#23450;&#25511;&#21046;&#31995;&#32479;&#21442;&#25968;<a name="2"></a></h2><pre class="codeinput">y0 = 0.15; <span class="comment">%&#21021;&#22987;&#33021;&#37327;</span>
+wn = [sqrt(2); sqrt(3); sqrt(2); sqrt(3)]; <span class="comment">% &#33258;&#28982;(&#22266;&#26377;)&#39057;&#29575;</span>
+zeta = [1/(2*sqrt(2)); 1/(2*sqrt(2)); 1/(2*sqrt(1)); 1/(2*sqrt(3))]; <span class="comment">% &#38459;&#23612;&#31995;&#25968;</span>
+wn_zeta = wn .* zeta;
+</pre><h2>III. &#36873;&#25321;&#23545;&#27604;&#26041;&#26696;<a name="3"></a></h2><pre class="codeinput">t=[0:0.1:10];
+compare = [1,2; 1,3; 1,4];
+title_str = [<span class="string">'\omega_n&#21464;&#22823;, \zeta&#19981;&#21464;, \zeta\omega_n&#21464;&#22823;'</span>,
+    <span class="string">'\omega_n&#19981;&#21464;, \zeta&#21464;&#22823;, \zeta\omega_n&#21464;&#22823;'</span>,
+    <span class="string">'\omega_n&#21464;&#22823;, \zeta&#21464;&#23567;, \zeta\omega_n&#19981;&#21464;'</span>];
+</pre><h2>IV. &#30452;&#25509;&#20351;&#29992;&#35299;&#26512;&#32467;&#26524;&#36755;&#20986;&#38646;&#36755;&#20837;&#21709;&#24212;<a name="4"></a></h2><p>1. &#35745;&#31639;&#36755;&#20986;&#38646;&#36755;&#20837;&#21709;&#24212;</p><pre class="codeinput">c = y0./sqrt(1-zeta.*zeta);
+y = zeros(4, 101); <span class="comment">% &#38646;&#36755;&#20837;&#21709;&#24212;&#30340;&#35299;&#26512;&#35299;</span>
+y(1,:) = c(1)*exp(-wn_zeta(1)*t) .* sin(wn(1)*sqrt(1-zeta(1)^2)*t+acos(zeta(1)));
+y(2,:) = c(2)*exp(-wn_zeta(2)*t) .* sin(wn(2)*sqrt(1-zeta(2)^2)*t+acos(zeta(2)));
+y(3,:) = c(3)*exp(-wn_zeta(3)*t) .* sin(wn(3)*sqrt(1-zeta(3)^2)*t+acos(zeta(3)));
+y(4,:) = c(4)*exp(-wn_zeta(4)*t) .* sin(wn(4)*sqrt(1-zeta(4)^2)*t+acos(zeta(4)));
+</pre><p>2. &#35745;&#31639;&#21253;&#32476;&#32447;</p><pre class="codeinput">bu = zeros(4, 101);
+bu(1,:) = c(1)*exp(-wn_zeta(1)*t);
+bu(2,:) = c(2)*exp(-wn_zeta(2)*t);
+bu(3,:) = c(3)*exp(-wn_zeta(3)*t);
+bu(4,:) = c(4)*exp(-wn_zeta(4)*t);
+bl = -bu;
+</pre><p>3. &#30011;&#22270;</p><pre class="codeinput"><span class="keyword">for</span> i=1:size(compare, 1)
+    figure(i);
+    hold <span class="string">on</span>;
+    plot(t,y(compare(i,1),:),<span class="string">'b-'</span>);
+    plot(t,y(compare(i,2),:),<span class="string">'r-'</span>);
+    plot(t,bu(compare(i,1),:),<span class="string">'b--'</span>, t,bl(compare(i,1),:),<span class="string">'b-.'</span>);
+    plot(t,bu(compare(i,2),:),<span class="string">'r--'</span>, t,bl(compare(i,2),:),<span class="string">'r-.'</span>);
+    xlabel(<span class="string">'Time(s)'</span>)
+    ylabel(<span class="string">'y(t)(m)'</span>)
+    legend([<span class="string">'\omega_n='</span>, num2str(wn(compare(i,1)),<span class="string">'%.3f'</span>),<span class="keyword">...</span>
+        <span class="string">', \zeta='</span>, num2str(zeta(compare(i,1)),<span class="string">'%.3f'</span>),<span class="keyword">...</span>
+        <span class="string">', \zeta\omega_n='</span>, num2str(wn_zeta(compare(i,1)),<span class="string">'%.3f'</span>)],<span class="keyword">...</span>
+        [<span class="string">'\omega_n='</span>, num2str(wn(compare(i,2)),<span class="string">'%.3f'</span>),<span class="keyword">...</span>
+        <span class="string">', \zeta='</span>, num2str(zeta(compare(i,2)),<span class="string">'%.3f'</span>),<span class="keyword">...</span>
+        <span class="string">', \zeta\omega_n='</span>, num2str(wn_zeta(compare(i,2)),<span class="string">'%.3f'</span>)])
+    title(title_str(i,:))
+    grid
+<span class="keyword">end</span>
+</pre><img vspace="5" hspace="5" src="zeroinput_resp_by_analysis_01.png" alt=""> <img vspace="5" hspace="5" src="zeroinput_resp_by_analysis_02.png" alt=""> <img vspace="5" hspace="5" src="zeroinput_resp_by_analysis_03.png" alt=""> <h2>V &#20998;&#26512;<a name="8"></a></h2><p>1. &#20174;figure1&#21487;&#20197;&#30475;&#20986;&#65292;wn&#22686;&#22823;&#20250;&#21152;&#24555;&#38663;&#33633;&#65292;&#36825;&#20063;&#26159;wn&#31216;&#20043;&#20026;&#22266;&#26377;&#39057;&#29575;&#30340;&#21407;&#22240;</p><p>2. &#20174;figure2&#21487;&#20197;&#30475;&#20986;&#26469;&#65292;zeta&#22686;&#22823;&#20250;&#23548;&#33268;&#22312;&#21516;&#19968;&#20010;&#21608;&#26399;&#20869;&#33021;&#37327;&#28040;&#32791;&#21152;&#24555;&#65292;&#36825;&#20063;&#26159;zeta&#31216;&#20043;&#20026;&#38459;&#23612;&#31995;&#25968;&#30340;&#21407;&#22240;</p><p>3. &#20174;figure3&#21487;&#20197;&#30475;&#20986;&#26469;&#65292;&#26080;&#35770;wn&#21644;zeta&#22914;&#20309;&#21464;&#21270;&#65292;&#21482;&#35201;zeta*wn&#19981;&#21464;&#65292;&#37027;&#20040;&#31995;&#32479;&#30340;&#34928;&#20943;&#25928;&#29575;&#23601;&#19981;&#21464; &#36825;&#26159;&#22240;&#20026;&#34429;&#28982;wn&#21464;&#22823;&#23548;&#33268;&#21333;&#20301;&#26102;&#38388;&#20869;&#26377;&#26356;&#22810;&#27425;&#38663;&#33633;&#20102;&#65292;&#20294;&#26159;&#26681;&#25454;2&#21487;&#30693;&#65292;zeta&#21464;&#23567;&#20250;&#23548;&#33268;&#27599;&#27425;&#38663;&#33633;&#30340;&#34928;&#20943;&#21464;&#23567; &#32508;&#21512;&#19979;&#26469;&#23601;&#23548;&#33268;&#21333;&#20301;&#26102;&#38388;&#30340;&#34928;&#20943;&#25928;&#29575;&#23601;&#27809;&#26377;&#21464;&#21270;&#65292;&#22240;&#27492;zeta*wn&#26159;&#25910;&#25947;&#25928;&#29575;</p><p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2016a</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%% I. 清空数据
+clear all;
+clc;
+close all;
+
+%% II. 设定控制系统参数
+y0 = 0.15; %初始能量
+wn = [sqrt(2); sqrt(3); sqrt(2); sqrt(3)]; % 自然(固有)频率
+zeta = [1/(2*sqrt(2)); 1/(2*sqrt(2)); 1/(2*sqrt(1)); 1/(2*sqrt(3))]; % 阻尼系数
+wn_zeta = wn .* zeta;
+
+%% III. 选择对比方案
+t=[0:0.1:10];
+compare = [1,2; 1,3; 1,4];
+title_str = ['\omega_n变大, \zeta不变, \zeta\omega_n变大',
+    '\omega_n不变, \zeta变大, \zeta\omega_n变大',
+    '\omega_n变大, \zeta变小, \zeta\omega_n不变'];
+
+%% IV. 直接使用解析结果输出零输入响应
+%%
+% 1. 计算输出零输入响应
+c = y0./sqrt(1-zeta.*zeta);
+y = zeros(4, 101); % 零输入响应的解析解
+y(1,:) = c(1)*exp(-wn_zeta(1)*t) .* sin(wn(1)*sqrt(1-zeta(1)^2)*t+acos(zeta(1)));
+y(2,:) = c(2)*exp(-wn_zeta(2)*t) .* sin(wn(2)*sqrt(1-zeta(2)^2)*t+acos(zeta(2)));
+y(3,:) = c(3)*exp(-wn_zeta(3)*t) .* sin(wn(3)*sqrt(1-zeta(3)^2)*t+acos(zeta(3)));
+y(4,:) = c(4)*exp(-wn_zeta(4)*t) .* sin(wn(4)*sqrt(1-zeta(4)^2)*t+acos(zeta(4)));
+
+%%
+% 2. 计算包络线
+bu = zeros(4, 101);
+bu(1,:) = c(1)*exp(-wn_zeta(1)*t);
+bu(2,:) = c(2)*exp(-wn_zeta(2)*t);
+bu(3,:) = c(3)*exp(-wn_zeta(3)*t);
+bu(4,:) = c(4)*exp(-wn_zeta(4)*t);
+bl = -bu;
+
+%%
+% 3. 画图
+for i=1:size(compare, 1)
+    figure(i);
+    hold on;
+    plot(t,y(compare(i,1),:),'b-');
+    plot(t,y(compare(i,2),:),'r-');
+    plot(t,bu(compare(i,1),:),'bREPLACE_WITH_DASH_DASH', t,bl(compare(i,1),:),'b-.');
+    plot(t,bu(compare(i,2),:),'rREPLACE_WITH_DASH_DASH', t,bl(compare(i,2),:),'r-.');
+    xlabel('Time(s)')
+    ylabel('y(t)(m)')
+    legend(['\omega_n=', num2str(wn(compare(i,1)),'%.3f'),...
+        ', \zeta=', num2str(zeta(compare(i,1)),'%.3f'),...
+        ', \zeta\omega_n=', num2str(wn_zeta(compare(i,1)),'%.3f')],...
+        ['\omega_n=', num2str(wn(compare(i,2)),'%.3f'),...
+        ', \zeta=', num2str(zeta(compare(i,2)),'%.3f'),...
+        ', \zeta\omega_n=', num2str(wn_zeta(compare(i,2)),'%.3f')])
+    title(title_str(i,:))
+    grid
+end
+
+%% V 分析
+%%
+% 1. 从figure1可以看出，wn增大会加快震荡，这也是wn称之为固有频率的原因
+
+%%
+% 2. 从figure2可以看出来，zeta增大会导致在同一个周期内能量消耗加快，这也是zeta称之为阻尼系数的原因
+
+%%
+% 3. 从figure3可以看出来，无论wn和zeta如何变化，只要zeta*wn不变，那么系统的衰减效率就不变
+% 这是因为虽然wn变大导致单位时间内有更多次震荡了，但是根据2可知，zeta变小会导致每次震荡的衰减变小
+% 综合下来就导致单位时间的衰减效率就没有变化，因此zeta*wn是收敛效率
+##### SOURCE END #####
+--></body></html>
